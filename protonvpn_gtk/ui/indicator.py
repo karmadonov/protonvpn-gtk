@@ -26,6 +26,11 @@ class Indicator:
         self.menu.append(item)
 
         item = Gtk.MenuItem()
+        item.set_label("Connect to the fastest")
+        item.connect("activate", lambda _: self.app.proton('connect_fastest')())
+        self.menu.append(item)
+
+        item = Gtk.MenuItem()
         item.set_label("Disconnect")
         item.connect("activate", lambda _: self.app.proton('disconnect')())
         self.menu.append(item)

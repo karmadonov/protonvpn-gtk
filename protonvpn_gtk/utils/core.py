@@ -6,6 +6,7 @@ from protonvpn_cli.connection import (
     manage_dns,
     manage_ipv6,
     manage_killswitch,
+    fastest,
 )
 from protonvpn_cli.constants import CONFIG_FILE, CONFIG_DIR
 from protonvpn_cli.utils import (
@@ -139,3 +140,7 @@ class ProtonVPN:
         manage_ipv6("restore")
         manage_killswitch("restore")
         return 'Disconnected.'
+
+    @staticmethod
+    def connect_fastest():
+        fastest()
