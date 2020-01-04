@@ -3,8 +3,14 @@ from gi.repository import Gtk
 from .status import StatusWindow
 from .indicator import Indicator
 
+from protonvpn_gtk.utils.core import ProtonVPN
+
 
 class MyApp(Gtk.Application):
+
+    @staticmethod
+    def proton(method: str):
+        return getattr(ProtonVPN(), method)
 
     def __init__(self, app_name):
         super().__init__()

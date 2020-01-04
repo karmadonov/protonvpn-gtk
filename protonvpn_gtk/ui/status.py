@@ -1,7 +1,5 @@
 from gi.repository import Gtk
 
-from protonvpn_gtk.utils.core import ProtonVPN
-
 
 class StatusWindow(Gtk.Window):
 
@@ -18,7 +16,6 @@ class StatusWindow(Gtk.Window):
         self.label.set_justify(Gtk.Justification.LEFT)
         self.wbox.pack_start(self.label, True, True, 0)
         self.add(self.wbox)
-        proton = ProtonVPN()
-        status = proton.status()
+        status = self.app.proton('status')()
         self.label.set_text(status)
         self.show_all()
