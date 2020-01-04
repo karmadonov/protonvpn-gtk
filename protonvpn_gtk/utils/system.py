@@ -1,5 +1,6 @@
 import os
 import subprocess
+import time
 
 
 def is_connected() -> bool:
@@ -21,3 +22,10 @@ def is_server_reachable(server: str) -> bool:
                           stdout=subprocess.PIPE,
                           stderr=subprocess.PIPE)
     return ping.returncode == 0
+
+
+def kill_openvpn(signal: str = '-15') -> bool:
+    """ Kiell openvpn process """
+    subprocess.run(["pkill", signal, "openvpn"])
+    time.sleep(0.5)
+    return is_connected()

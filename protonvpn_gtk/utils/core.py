@@ -2,6 +2,11 @@ import configparser
 import datetime
 import time
 
+from protonvpn_cli.connection import (
+    manage_dns,
+    manage_ipv6,
+    manage_killswitch,
+)
 from protonvpn_cli.constants import CONFIG_FILE, CONFIG_DIR
 from protonvpn_cli.utils import (
     get_ip_info,
@@ -15,6 +20,7 @@ from .system import (
     is_connected,
     is_killswitch_active,
     is_server_reachable,
+    kill_openvpn,
 )
 
 
@@ -107,3 +113,24 @@ class ProtonVPN:
             f"Load: {load}",
         )
         return '\n'.join(msgs)
+
+    @staticmethod
+    def disconnect():
+        """Disconnect from VPN."""
+        if is_connected():
+            connected = kill_openvpn()
+
+            timer_start = time.time()
+            while connected:
+                if time.time() - timer_start <= 5:
+                    connected = kill_openvpn()
+                else:
+                    connected = kill_openvpn('-9') or True
+
+            if is_connected():
+                return 'Could not terminate OpenVPN process.'
+
+        manage_dns("restore")
+        manage_ipv6("restore")
+        manage_killswitch("restore")
+        return 'Disconnected.'

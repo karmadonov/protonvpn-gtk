@@ -15,7 +15,7 @@ An unofficial GTK 3 client for ProtonVPN. It's just GTK+ frontend for [ProtonVPN
 * install [ProtonVPN-GTK](https://github.com/karmadonov/protonvpn-gtk): `sudo python3 setup.py install`
 
 ### Usage
-Run `protonvpn-gtk`.
+Run `sudo protonvpn-gtk`.
 
 ### Status
 
@@ -23,7 +23,7 @@ Implementation ToDO:
 
 - [X] Show connection status.
 - [ ] Connect to server.
-- [ ] Disconnect the current session.
+- [X] Disconnect the current session.
 - [ ] Edit configuration.
 - [ ] Add tests.
 - [ ] Add logging.

@@ -3,6 +3,8 @@ import os
 from gi.repository import Gtk
 from gi.repository import AppIndicator3 as appindicator
 
+from protonvpn_gtk.utils.core import ProtonVPN
+
 CURRDIR = os.path.dirname(os.path.abspath(__file__))
 ICON_DIR = os.path.join(CURRDIR, '../../icons')
 ICON = os.path.join(ICON_DIR, 'proto.png')
@@ -22,6 +24,11 @@ class Indicator:
         item = Gtk.MenuItem()
         item.set_label("Status")
         item.connect("activate", self.app.main_win.cb_show)
+        self.menu.append(item)
+
+        item = Gtk.MenuItem()
+        item.set_label("Disconnect")
+        item.connect("activate", lambda _: ProtonVPN.disconnect())
         self.menu.append(item)
 
         item = Gtk.MenuItem()
