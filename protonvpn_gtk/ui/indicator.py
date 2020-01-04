@@ -21,24 +21,21 @@ class Indicator:
         self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
         self.menu = Gtk.Menu()
 
-        item = Gtk.MenuItem(label="Connect to the fastest")
-        item.connect("activate", lambda _: self.app.proton('connect_fastest')())
-        self.menu.append(item)
+        menu_items = (
+            ('Connect to the fastest', self.app.proton('connect_fastest')),
+            ('Disconnect', self.app.proton('disconnect')),
+            ('Status', self.app.main_win.cb_show),
+            None,
+            ('Exit', self.cb_exit, ''),
+        )
 
-        item = Gtk.MenuItem(label="Disconnect")
-        item.connect("activate", lambda _: self.app.proton('disconnect')())
-        self.menu.append(item)
-
-        item = Gtk.MenuItem(label="Status")
-        item.connect("activate", self.app.main_win.cb_show)
-        self.menu.append(item)
-
-        item = Gtk.SeparatorMenuItem()
-        self.menu.append(item)
-
-        item = Gtk.MenuItem(label="Exit")
-        item.connect("activate", self.cb_exit, '')
-        self.menu.append(item)
+        for menu_item in menu_items:
+            if menu_item is None:
+                item = Gtk.SeparatorMenuItem()
+            else:
+                item = Gtk.MenuItem(label=menu_item[0])
+                item.connect("activate", *menu_item[1:])
+            self.menu.append(item)
 
         self.check_status(None)
         GLib.timeout_add_seconds(5, self.check_status, None)

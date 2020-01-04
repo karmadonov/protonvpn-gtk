@@ -10,7 +10,7 @@ class MyApp(Gtk.Application):
 
     @staticmethod
     def proton(method: str):
-        return getattr(ProtonVPN(), method)
+        return lambda _=None: getattr(ProtonVPN(), method)()
 
     def __init__(self, app_name):
         super().__init__()
