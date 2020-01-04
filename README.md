@@ -24,7 +24,7 @@ Implementation ToDO:
 - [X] Show connection status.
 - [ ] Connect to server.
 - [X] Disconnect the current session.
-- [ ] Change icon color on status cahnge.
+- [X] Change icon color on status change.
 - [ ] Edit configuration.
 - [ ] Add tests.
 - [ ] Add logging.

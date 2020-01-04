@@ -31,7 +31,7 @@ setup(
         'PyGObject>=3.34.0'
     ],
     data_files=[
-        ('icons', ['icons/proto.png']),
+        ('icons', ['icons/proto.png', 'icons/proto_red.png']),
     ],
     python_requires='>=3.6',
     classifiers=[

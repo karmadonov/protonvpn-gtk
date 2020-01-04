@@ -42,6 +42,11 @@ class ProtonVPN:
                           "dns_leak_protection", "custom_dns"}
         return not bool(required_props - self.config['USER'].keys())
 
+    @staticmethod
+    def is_connected() -> bool:
+        """ Return connection status """
+        return is_connected()
+
     def status(self) -> str:
         """ Return the current VPN status.
 
