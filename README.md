@@ -19,6 +19,8 @@ Run `sudo protonvpn-gtk`.
 
 ### Status
 
+![Screenshot](https://raw.githubusercontent.com/karmadonov/protonvpn-gtk/screenshots/protonvpn.png)
+
 Implementation ToDO:
 
 - [X] Show connection status.
