@@ -7,6 +7,7 @@ from protonvpn_cli.connection import (
     manage_ipv6,
     manage_killswitch,
     fastest,
+    openvpn_connect,
 )
 from protonvpn_cli.constants import CONFIG_FILE, CONFIG_DIR
 from protonvpn_cli.utils import (
@@ -23,6 +24,7 @@ from .system import (
     is_server_reachable,
     kill_openvpn,
 )
+from .protonlib.vpn import Servers
 
 
 class ProtonVPN:
@@ -31,6 +33,7 @@ class ProtonVPN:
         config = configparser.ConfigParser()
         config.read(CONFIG_FILE)
         self.config = {s: dict(config.items(s)) for s in config.sections()}
+        self.servers = Servers(int(self.config['USER']['tier']))
 
     def _check_configs(self) -> bool:
         if 'USER' not in self.config:
@@ -144,3 +147,13 @@ class ProtonVPN:
     @staticmethod
     def connect_fastest():
         fastest()
+
+    def get_countries(self) -> dict:
+        return self.servers.get_coutries()
+
+    def get_servers_for_country(self, country_code: str) -> dict:
+        return self.servers.get_servers_by_country(country_code)
+
+    def connect(self, server_id: str, protocol: str) -> None:
+        servername = self.servers.get_server(server_id)['Name']
+        openvpn_connect(servername, protocol)

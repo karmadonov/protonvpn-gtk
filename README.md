@@ -25,9 +25,10 @@ Run `sudo protonvpn-gtk`.
 Implementation ToDO:
 
 - [X] Show connection status.
-- [ ] Connect to server.
+- [X] Connect to server.
 - [X] Disconnect the current session.
 - [X] Change icon color on status change.
 - [ ] Edit configuration.
+- [ ] Refactore UI.
 - [ ] Add tests.
 - [ ] Add logging.

@@ -18,6 +18,7 @@ class IndicatorMenu(Gtk.Menu):
         self.app = root
         menu_items = (
             ('Connect to the fastest', self.app.proton('connect_fastest')),
+            ('Choose VPN Server', self.app.servers_win.cb_show),
             ('Disconnect', self.app.proton('disconnect')),
             ('Status', self.app.main_win.cb_show),
             None,
