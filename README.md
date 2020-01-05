@@ -3,7 +3,7 @@
 ![Screenshot](https://raw.githubusercontent.com/karmadonov/protonvpn-gtk/screenshots/protonvpn.png)
 
 
-<b style="color:red">❗️ In development ❗️ See [status](#status).</b>
+<b style="color:red">❗️ See [status](#status).</b>
 
 An unofficial GTK 3 client for ProtonVPN. It's just GTK+ frontend for [ProtonVPN/protonvpn-cli-ng](https://github.com/ProtonVPN/protonvpn-cli-ng/).
 
