@@ -10,17 +10,12 @@ ICON_CONNECTED = os.path.join(ICON_DIR, 'proto.png')
 ICON_DISCONNECTED = os.path.join(ICON_DIR, 'proto_red.png')
 
 
-class Indicator:
+class IndicatorMenu(Gtk.Menu):
 
     def __init__(self, root):
-        self.app = root
-        self.ind = appindicator.Indicator.new(
-            self.app.name,
-            "indicator-messages",
-            appindicator.IndicatorCategory.APPLICATION_STATUS)
-        self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
-        self.menu = Gtk.Menu()
+        super().__init__()
 
+        self.app = root
         menu_items = (
             ('Connect to the fastest', self.app.proton('connect_fastest')),
             ('Disconnect', self.app.proton('disconnect')),
@@ -35,8 +30,22 @@ class Indicator:
             else:
                 item = Gtk.MenuItem(label=menu_item[0])
                 item.connect("activate", *menu_item[1:])
-            self.menu.append(item)
+            self.append(item)
 
+    def cb_exit(self, w, data):
+        Gtk.main_quit()
+
+
+class Indicator:
+
+    def __init__(self, root):
+        self.app = root
+        self.ind = appindicator.Indicator.new(
+            self.app.name,
+            "indicator-messages",
+            appindicator.IndicatorCategory.APPLICATION_STATUS)
+        self.ind.set_status(appindicator.IndicatorStatus.ACTIVE)
+        self.menu = IndicatorMenu(self.app)
         self.check_status(None)
         GLib.timeout_add_seconds(5, self.check_status, None)
         self.menu.show_all()
@@ -47,6 +56,3 @@ class Indicator:
         icon = ICON_CONNECTED if connected else ICON_DISCONNECTED
         self.ind.set_icon_full(icon, 'protonvpn')
         return True
-
-    def cb_exit(self, w, data):
-        Gtk.main_quit()
