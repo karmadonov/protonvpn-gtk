@@ -6,7 +6,7 @@ import time
 def is_connected() -> bool:
     """ Check if VPN is connected."""
     openvpn_pids = subprocess \
-        .run(["pgrep", "openvpn"], stdout=subprocess.PIPE) \
+        .run(["pgrep", "--exact", "openvpn"], stdout=subprocess.PIPE) \
         .stdout.decode("utf-8").split()
     return bool(openvpn_pids)
 
