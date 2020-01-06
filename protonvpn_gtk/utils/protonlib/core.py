@@ -16,14 +16,14 @@ from protonvpn_cli.utils import (
     pull_server_data,
 )
 
-from .system import (
+from .modules.system import (
     is_connected,
     is_killswitch_active,
     is_server_reachable,
     kill_openvpn,
 )
-from .protonlib.vpn import Servers
-from .protonlib.config import Settings
+from .modules.vpn import Servers
+from .modules.config import Settings
 
 
 class ProtonVPN:
