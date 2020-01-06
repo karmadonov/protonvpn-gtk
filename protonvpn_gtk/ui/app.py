@@ -4,7 +4,7 @@ from .status import StatusWindow
 from .servers import ServersWindow
 from .indicator import Indicator
 
-from protonvpn_gtk.utils.protonlib.core import ProtonVPN
+from protonvpn_gtk.utils.core import ProtonVPN
 
 
 class MyApp(Gtk.Application):

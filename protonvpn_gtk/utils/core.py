@@ -1,3 +1,4 @@
+import configparser
 import datetime
 import time
 
@@ -8,6 +9,7 @@ from protonvpn_cli.connection import (
     fastest,
     openvpn_connect,
 )
+from protonvpn_cli.constants import CONFIG_FILE, CONFIG_DIR
 from protonvpn_cli.utils import (
     get_ip_info,
     get_country_name,
@@ -16,33 +18,33 @@ from protonvpn_cli.utils import (
     pull_server_data,
 )
 
-from .modules.system import (
+from .system import (
     is_connected,
     is_killswitch_active,
     is_server_reachable,
     kill_openvpn,
 )
-from .modules.vpn import Servers
-from .modules.config import Settings
+from .protonlib.vpn import Servers
 
 
 class ProtonVPN:
 
     def __init__(self) -> None:
-        self.config = Settings()
-        self.config.load()
-        self.servers = Servers(self.config.user['tier'])
+        config = configparser.ConfigParser()
+        config.read(CONFIG_FILE)
+        self.config = {s: dict(config.items(s)) for s in config.sections()}
+        self.servers = Servers(int(self.config['USER']['tier']))
 
     def _check_configs(self) -> bool:
-        if not self.config.user:
+        if 'USER' not in self.config:
             return False
 
-        if self.config.user.get("initialized", 0) != 1:
+        if self.config['USER'].get("initialized", None) != '1':
             return False
 
         required_props = {"username", "tier", "default_protocol",
                           "dns_leak_protection", "custom_dns"}
-        return not bool(required_props - self.config.user.keys())
+        return not bool(required_props - self.config['USER'].keys())
 
     @staticmethod
     def is_connected() -> bool:
@@ -58,7 +60,7 @@ class ProtonVPN:
         if not self._check_configs():
             return 'Settings problem. Please run "protonvpn init".'
 
-        killswitch_active = is_killswitch_active(self.config.config_dir)
+        killswitch_active = is_killswitch_active(CONFIG_DIR)
         if not is_connected():
             msgs = ['Not connected']
             if killswitch_active:
@@ -69,13 +71,12 @@ class ProtonVPN:
 
         pull_server_data()
 
-        metadata = self.config.metadata
+        metadata = self.config.get('metadata', {})
         current_server = metadata.get("connected_server", None)
         current_protocol = metadata.get("connected_proto", None)
         dns_server = metadata.get("dns_server", None)
         if not metadata or \
                 not all((current_server, current_protocol, dns_server)):
-            print(metadata, current_server, current_protocol, dns_server)
             return 'Please connect with "protonvpn connect" first.'
 
         if not is_server_reachable(dns_server):
