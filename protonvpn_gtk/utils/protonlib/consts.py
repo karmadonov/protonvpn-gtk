@@ -1,4 +1,34 @@
-country_codes = {
+import os
+
+from pathlib import Path
+
+
+USER = os.environ.get("SUDO_USER", os.environ["USER"])
+HOME_DIR = Path(f'~{USER}').expanduser()
+CONFIG_DIR = HOME_DIR.joinpath('.pvpn-cli')
+CONFIG_FILE = CONFIG_DIR.joinpath("pvpn-cli.cfg")
+
+USER_SETTINGS = {
+    'username': str,
+    'tier': int,
+    'default_protocol': str,
+    'initialized': int,
+    'dns_leak_protection': int,
+    'custom_dns': str,
+    'check_update_interval': int,
+    'killswitch': int
+}
+METADATA_SETTINGS = {
+    'last_api_pull': int,
+    'last_update_check': int,
+    'dns_server': str,
+    'resolvconf_hash': int,
+    'connected_server': str,
+    'connected_proto': str,
+    'connected_time': int
+}
+
+COUNTRY_CODES = {
     "BD": "Bangladesh",
     "BE": "Belgium",
     "BF": "Burkina Faso",

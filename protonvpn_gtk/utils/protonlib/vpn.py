@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from .api import ProtonAPI
-from .consts import country_codes
+from .consts import COUNTRY_CODES
 
 
 class Servers:
@@ -29,7 +29,7 @@ class Servers:
 
             country_code = server["ExitCountry"]
             country = countries[country_code]
-            country['name'] = country_codes.get(country_code, None)
+            country['name'] = COUNTRY_CODES.get(country_code, None)
             country['features'].add(int(server['Features']))
             country['servers'].append(server['ID'])
         return servers, countries
