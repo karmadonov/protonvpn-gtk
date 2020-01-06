@@ -11,7 +11,6 @@ from protonvpn_cli.connection import (
 from protonvpn_cli.utils import (
     get_ip_info,
     get_country_name,
-    get_servers,
     get_server_value,
     pull_server_data,
 )
@@ -83,14 +82,14 @@ class ProtonVPN:
                     'You may want to reconnect with "protonvpn reconnect"')
             return '\n'.join(msgs)
 
-        servers = get_servers()
+        servers = self.servers
         subs = [s["Servers"] for s in servers if s["Name"] == current_server]
         server_ips = [subserver["ExitIP"] for subserver in subs[0]]
 
         ip, isp = get_ip_info()
 
         if ip not in server_ips:
-            msgs = ("Your IP was not found in last Servers IPs",
+            msgs = (f"Your IP ({ip}) was not found in last Servers IPs",
                     "Maybe you're not connected to a ProtonVPN Server")
             return '\n'.join(msgs)
 
@@ -143,8 +142,26 @@ class ProtonVPN:
         manage_killswitch("restore")
         return 'Disconnected.'
 
-    @staticmethod
-    def connect_fastest():
+    def connect_fastest(self, protocol=None):
+        """ Connect to the fastest VPN server """
+        protocol = protocol or self.config.user.get('default_protocol', 'UDP')
+
+        if self.is_connected():
+            self.disconnect()
+
+        self.servers.update()
+
+        # ProtonVPN Features: 1: SECURE-CORE, 2: TOR, 4: P2P
+        excluded_features = [1, 2]
+
+        # Filter out excluded features
+        server_pool = []
+        for server in servers:
+            if server["Features"] not in excluded_features:
+                server_pool.append(server)
+
+        fastest_server = get_fastest_server(server_pool)
+        openvpn_connect(fastest_server, protocol)
         fastest()
 
     def get_countries(self) -> dict:

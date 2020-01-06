@@ -53,3 +53,10 @@ class Servers:
 
     def get_server(self, server_id: str) -> dict:
         return self.servers.get(server_id)
+
+    @property
+    def get_current(self):
+        pass
+
+    def get_fastest(self):
+        pass

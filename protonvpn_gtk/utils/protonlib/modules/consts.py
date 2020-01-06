@@ -28,6 +28,12 @@ METADATA_SETTINGS = {
     'connected_time': int
 }
 
+VPN_FEATURES = (
+    (1, 'Secure-Core'),
+    (2, 'Tor'),
+    (4, 'P2P')
+)
+
 COUNTRY_CODES = {
     "BD": "Bangladesh",
     "BE": "Belgium",
