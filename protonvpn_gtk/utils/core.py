@@ -90,11 +90,6 @@ class ProtonVPN:
 
         ip, isp = get_ip_info()
 
-        if ip not in server_ips:
-            msgs = ("Your IP was not found in last Servers IPs",
-                    "Maybe you're not connected to a ProtonVPN Server")
-            return '\n'.join(msgs)
-
         all_features = {0: "Normal", 1: "Secure-Core", 2: "Tor", 4: "P2P"}
 
         country_code = get_server_value(current_server, "ExitCountry", servers)
