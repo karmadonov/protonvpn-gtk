@@ -1,0 +1,3 @@
+def init():
+    '''Initialize application'''
+    
