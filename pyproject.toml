@@ -1,8 +1,13 @@
 [tool.poetry]
 name = "protonvpn-gtk"
-version = "0.1.0"
-description = ""
+version = "2.0.1"
+description = "Unofficial GTK 3 client for ProtonVPN"
 authors = ["Kirill Karmadonov <kirill@live.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/karmadonov/protonvpn-gtk"
+repository = "https://github.com/karmadonov/protonvpn-gtk"
+keywords = ["protonvpn"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
